@@ -68,7 +68,7 @@ public class ResultManager : MonoBehaviour
         {
             if (i == playersPosition - 1)
             {
-                scoreboardNames[i].text = Social.localUser.userName;
+                scoreboardNames[i].text = "You";
                 scoreboardScores[i].text = ScoreTracker.Instance.ReturnPlayerScore().ToString();
             }
             else
@@ -108,19 +108,8 @@ public class ResultManager : MonoBehaviour
     public void GoToMainMenu()
     {
         CurrencyManager.instance.AdjustCurrency(amountOfCoinsWon);
-        if (UserDataHandler.instance.ReturnSavedValues().gameOversTillAD++ == gamesTillAD)
-        {
-            ADManager.Instance.LoadInterstitialAd();
-            UserDataHandler.instance.ReturnSavedValues().gameOversTillAD = 0;
-            UserDataHandler.instance.SaveUserData();
-        }
-        else
-        {
-            UserDataHandler.instance.ReturnSavedValues().gameOversTillAD++;
-            UserDataHandler.instance.SaveUserData();
-            GameManager.Instance.ChangingScenes = true;
-            SceneManager.LoadScene("MainMenu");
-        }
+        GameManager.Instance.ChangingScenes = true;
+        SceneManager.LoadScene("MainMenu");
     }
     
     public void ExitConfirmation()

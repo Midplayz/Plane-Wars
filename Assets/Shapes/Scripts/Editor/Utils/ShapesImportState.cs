@@ -19,6 +19,7 @@ using System.Reflection;
 using UnityEngine.Rendering.Universal;
 #if UNITY_2021_2_OR_NEWER
 using URP_RND_DATA = UnityEngine.Rendering.Universal.UniversalRendererData;
+using UnityEditor.Build;
 
 #else
 using URP_RND_DATA = UnityEngine.Rendering.Universal.ForwardRendererData;
@@ -118,7 +119,7 @@ namespace Shapes {
 		static void MakeSureSampleMaterialsAreValid() {
 			#if SHAPES_URP || SHAPES_HDRP
 			#if UNITY_2019_1_OR_NEWER
-			Shader targetShader = GraphicsSettings.renderPipelineAsset.defaultShader;
+			Shader targetShader = GraphicsSettings.defaultRenderPipeline.defaultShader;
 			#else
 			Shader targetShader = GraphicsSettings.renderPipelineAsset.GetDefaultShader();
 			#endif
@@ -156,8 +157,8 @@ namespace Shapes {
 		}
 
 
-		#if SHAPES_URP
-		/* this is pretty cursed, I'm commenting this out for now.
+#if SHAPES_URP
+        /* this is pretty cursed, I'm commenting this out for now.
 		static class UrpRndFuncs {
 			const BindingFlags bfs = BindingFlags.Instance | BindingFlags.NonPublic;
 			public static readonly FieldInfo fRndDataList = typeof(UniversalRenderPipelineAsset).GetField( "m_RendererDataList", bfs );
@@ -194,12 +195,13 @@ namespace Shapes {
 				Debug.LogError( UrpRndFuncs.failMessage );
 		}*/
 
-		#endif
+#endif
 
-		public static List<string> GetCurrentKeywords() => PlayerSettings.GetScriptingDefineSymbolsForGroup( EditorUserBuildSettings.selectedBuildTargetGroup ).Split( ';' ).ToList();
-		static void SetCurrentKeywords( IEnumerable<string> keywords ) => PlayerSettings.SetScriptingDefineSymbolsForGroup( EditorUserBuildSettings.selectedBuildTargetGroup, string.Join( ";", keywords ) );
+        public static List<string> GetCurrentKeywords() =>
+        PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.FromBuildTargetGroup(EditorUserBuildSettings.selectedBuildTargetGroup)).Split(';').ToList();
+        public static void SetCurrentKeywords(IEnumerable<string> keywords) => PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.FromBuildTargetGroup(EditorUserBuildSettings.selectedBuildTargetGroup), string.Join(";", keywords));
 
-		internal static bool TryGetPreprocessorRP( out RenderPipeline rp ) {
+        internal static bool TryGetPreprocessorRP( out RenderPipeline rp ) {
 			List<string> keywords = GetCurrentKeywords();
 			bool kwURP = keywords.Contains( RenderPipeline.URP.PreprocessorDefineName() );
 			bool kwHDRP = keywords.Contains( RenderPipeline.HDRP.PreprocessorDefineName() );

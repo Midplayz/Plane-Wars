@@ -365,14 +365,14 @@ public class ShopManager : MonoBehaviour
             }
             if (infoOnSkins[currentSkin].skinPrice > amountOfCurrencyToConsider)
             {
-                if (!IronSource.Agent.isRewardedVideoAvailable())
-                {
-                    watchADsButton.interactable = false;
-                }
-                else
-                {
-                    watchADsButton.interactable = true;
-                }
+                //if (!IronSource.Agent.isRewardedVideoAvailable())
+                //{
+                //    watchADsButton.interactable = false;
+                //}
+                //else
+                //{
+                //    watchADsButton.interactable = true;
+                //}
 
                 watchADsPanel.SetActive(true);
             }

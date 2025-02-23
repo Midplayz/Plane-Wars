@@ -14,7 +14,7 @@ public class ProfileManager : MonoBehaviour
 
     public void SetPlayerStats()
     {
-        userNameText.text = Social.localUser.userName;
+        userNameText.text = "Player";
         killsText.text = UserDataHandler.instance.ReturnSavedValues().killsCount.ToString();
         deathsText.text = UserDataHandler.instance.ReturnSavedValues().deathsCount.ToString();
         winsText.text = UserDataHandler.instance.ReturnSavedValues().winsCount.ToString();
